@@ -1,0 +1,16 @@
+**/node_modules
+**/dist
+**/coverage
+**/.env
+**/.env.*
+!**/.env.example
+**/.expo
+apps/api/.local-pg
+apps/mobile/*
+!apps/mobile/package.json
+.git
+.github
+.claude
+docs
+*.md
+Task.pdf

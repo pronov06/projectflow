@@ -1,0 +1,52 @@
+# Full local stack: PostgreSQL + API + web.
+#   docker compose up --build
+#   web → http://localhost:8080   API → http://localhost:4000/api/docs
+# Seed demo data (optional): docker compose exec api npx tsx prisma/seed.ts
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: projectflow
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d projectflow']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/projectflow?schema=public
+      DIRECT_URL: postgresql://postgres:postgres@db:5432/projectflow?schema=public
+      # Local demo secret only — never reuse in a real deployment.
+      JWT_ACCESS_SECRET: local-docker-demo-secret-change-me-0123456789abcdef
+      CORS_ORIGINS: http://localhost:8080
+      COOKIE_SECURE: 'false'
+      TRUST_PROXY: '1'
+    ports:
+      - '4000:4000'
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - '8080:80'
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
