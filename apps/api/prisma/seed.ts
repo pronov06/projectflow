@@ -118,6 +118,7 @@ async function createUser(fullName: string, email: string, projects: SeedProject
 async function main() {
   await createUser('Alice Tester', 'alice@example.com', aliceProjects);
   await createUser('Bob Tester', 'bob@example.com', bobProjects);
+  // eslint-disable-next-line no-console -- CLI output
   console.log(`Seeded alice@example.com and bob@example.com (password: ${DEMO_PASSWORD})`);
 }
 
