@@ -7,6 +7,7 @@
 <a href="https://projectflow-hf4d.vercel.app"><img src="https://img.shields.io/badge/Open_the_web_app-56f09f?style=for-the-badge&logo=vercel&logoColor=032019" alt="Open the web app" /></a>
 <a href="https://expo.dev/accounts/pronov06/projects/projectflow/builds/95d102f1-be28-4817-847c-70b48ddb6c94"><img src="https://img.shields.io/badge/Install_Android_APK-004737?style=for-the-badge&logo=android&logoColor=56f09f" alt="Install the Android APK" /></a>
 <a href="https://projectflow-beta-three.vercel.app/api/docs"><img src="https://img.shields.io/badge/API_docs_(Swagger)-d4ffe8?style=for-the-badge&logo=swagger&logoColor=004737" alt="API docs" /></a>
+<a href="https://drive.google.com/file/d/1ta87rXm-qUN-gZTwAQd47z9p0xvCqUco/view?usp=sharing"><img src="https://img.shields.io/badge/Watch_the_demo-032019?style=for-the-badge&logo=googledrive&logoColor=56f09f" alt="Watch the demo video" /></a>
 <br />
 <a href="https://github.com/pronov06/projectflow/actions/workflows/ci.yml"><img src="https://github.com/pronov06/projectflow/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
 <img src="https://img.shields.io/badge/tests-77_API_·_17_live_checks-004737?style=flat-square&labelColor=032019" alt="Tests" />
@@ -45,7 +46,7 @@
 | ⚙️ **API health** | https://projectflow-beta-three.vercel.app/api/health |
 | 📖 **API docs (Swagger)** | https://projectflow-beta-three.vercel.app/api/docs |
 | 📱 **Android APK** | [expo.dev build page](https://expo.dev/accounts/pronov06/projects/projectflow/builds/95d102f1-be28-4817-847c-70b48ddb6c94) → open it on an Android phone → *Install* |
-| 🎬 **Demo video (5 min)** | _link added after recording_ |
+| 🎬 **Demo video (5 min)** | [Watch on Google Drive](https://drive.google.com/file/d/1ta87rXm-qUN-gZTwAQd47z9p0xvCqUco/view?usp=sharing) — same account on web and Android, a task created on one appears on the other |
 
 > [!TIP]
 > **Test account:** `alice@example.com` / `Password123!` (seeded demo data, not a real person).
