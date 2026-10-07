@@ -1,22 +1,275 @@
 @import 'tailwindcss';
-
-@theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-}
+@import './styles/tokens.css';
 
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-regular);
+    /* Tabular numerals everywhere: counts and dates line up. */
+    font-feature-settings: 'tnum' on;
+    text-rendering: optimizeLegibility;
   }
+
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
   }
+
+  /* The system has exactly one weight; normalise elements that default to bold. */
+  h1,
+  h2,
+  h3,
+  h4,
+  strong,
+  b,
+  th,
+  dt {
+    font-weight: var(--font-weight-regular);
+  }
+
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-600;
+    outline: var(--spacing-2) solid var(--color-focus);
+    outline-offset: var(--spacing-2);
+  }
+
+  ::selection {
+    background-color: var(--color-mint-mist);
+    color: var(--color-deep-loam);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* ------------------------------------------------------------------
+   * Notched panel — the signature layout of the auth screens.
+   * A forest panel with a raised centre "tab" at the top (headline) and
+   * a lowered tab at the bottom (caption). The cream "shoulders" beside
+   * each tab hold navigation. Concave joins are drawn with hard-stop
+   * radial masks (no visible gradient), so every edge uses --radius-panel.
+   * ------------------------------------------------------------------ */
+  .notched {
+    --notch-r: var(--radius-panel);
+    --notch-fill: var(--color-panel);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .notched__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'start end'
+      'tab tab';
+  }
+
+  .notched__row--bottom {
+    grid-template-areas:
+      'tab tab'
+      'start end';
+  }
+
+  .notched__start {
+    grid-area: start;
+  }
+
+  .notched__end {
+    grid-area: end;
+  }
+
+  .notched__tab {
+    grid-area: tab;
+    position: relative;
+    z-index: 1;
+    background-color: var(--notch-fill);
+    color: var(--color-on-panel);
+  }
+
+  .notched__row--top .notched__tab {
+    border-radius: var(--notch-r) var(--notch-r) 0 0;
+    /* overlap the body by 1px so sub-pixel rounding never shows a seam */
+    margin-bottom: calc(var(--spacing-1) * -1);
+  }
+
+  .notched__row--bottom .notched__tab {
+    border-radius: 0 0 var(--notch-r) var(--notch-r);
+    margin-top: calc(var(--spacing-1) * -1);
+  }
+
+  .notched__body {
+    background-color: var(--notch-fill);
+    color: var(--color-on-panel);
+  }
+
+  /* Concave fillets only exist where a tab meets the body beside a shoulder (lg+). */
+  .notched__tab::before,
+  .notched__tab::after {
+    content: none;
+    position: absolute;
+    width: var(--notch-r);
+    height: var(--notch-r);
+  }
+
+  @media (width >= 64rem) {
+    .notched__row {
+      grid-template-columns: 1fr minmax(0, 1.5fr) 1fr;
+      grid-template-areas: 'start tab end';
+      align-items: stretch;
+    }
+
+    .notched__row--bottom {
+      grid-template-columns: 1fr minmax(0, 5fr) 2fr;
+      grid-template-areas: 'start tab end';
+    }
+
+    .notched__body {
+      border-radius: var(--notch-r);
+    }
+
+    .notched__tab::before,
+    .notched__tab::after {
+      content: '';
+    }
+
+    .notched__row--top .notched__tab::before {
+      left: calc(var(--notch-r) * -1);
+      bottom: var(--spacing-1);
+      background: radial-gradient(
+        circle at 0 0,
+        transparent var(--notch-r),
+        var(--notch-fill) calc(var(--notch-r) + 0.5px)
+      );
+    }
+
+    .notched__row--top .notched__tab::after {
+      right: calc(var(--notch-r) * -1);
+      bottom: var(--spacing-1);
+      background: radial-gradient(
+        circle at 100% 0,
+        transparent var(--notch-r),
+        var(--notch-fill) calc(var(--notch-r) + 0.5px)
+      );
+    }
+
+    .notched__row--bottom .notched__tab::before {
+      left: calc(var(--notch-r) * -1);
+      top: var(--spacing-1);
+      background: radial-gradient(
+        circle at 0 100%,
+        transparent var(--notch-r),
+        var(--notch-fill) calc(var(--notch-r) + 0.5px)
+      );
+    }
+
+    .notched__row--bottom .notched__tab::after {
+      right: calc(var(--notch-r) * -1);
+      top: var(--spacing-1);
+      background: radial-gradient(
+        circle at 100% 100%,
+        transparent var(--notch-r),
+        var(--notch-fill) calc(var(--notch-r) + 0.5px)
+      );
+    }
+  }
+
+  @media (width < 64rem) {
+    .notched__row--top .notched__tab {
+      margin-top: var(--spacing-16);
+    }
+    .notched__row--bottom .notched__start,
+    .notched__row--bottom .notched__end {
+      margin-top: var(--spacing-16);
+    }
+  }
+
+  /* ------------------------------------------------------------------
+   * Flow diagram — mint blocks and thick connectors that "grow" step
+   * by step (see FlowIllustration.tsx). Elements are hidden until the
+   * step they belong to is reached; [data-delay] staggers them.
+   * ------------------------------------------------------------------ */
+  .flow-el {
+    transform-box: fill-box;
+    transition:
+      transform 520ms var(--ease-out),
+      opacity 320ms var(--ease-out);
+  }
+
+  .flow-el[data-grow='x'] {
+    transform-origin: left center;
+  }
+  .flow-el[data-grow='x-reverse'] {
+    transform-origin: right center;
+  }
+  .flow-el[data-grow='y-up'] {
+    transform-origin: center bottom;
+  }
+  .flow-el[data-grow='y-down'] {
+    transform-origin: center top;
+  }
+  .flow-el[data-grow='pop'] {
+    transform-origin: center;
+  }
+  .flow-el[data-grow='rise'] {
+    transform-origin: left center;
+  }
+
+  .flow-el:not(.is-on)[data-grow='x'],
+  .flow-el:not(.is-on)[data-grow='x-reverse'] {
+    transform: scaleX(0);
+  }
+  .flow-el:not(.is-on)[data-grow='y-up'],
+  .flow-el:not(.is-on)[data-grow='y-down'] {
+    transform: scaleY(0);
+  }
+  .flow-el:not(.is-on)[data-grow='pop'] {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  .flow-el:not(.is-on)[data-grow='rise'] {
+    transform: translateY(var(--spacing-12));
+    opacity: 0;
+  }
+
+  .flow-el.is-on[data-delay='1'] {
+    transition-delay: 160ms;
+  }
+  .flow-el.is-on[data-delay='2'] {
+    transition-delay: 360ms;
+  }
+  .flow-el.is-on[data-delay='3'] {
+    transition-delay: 520ms;
+  }
+  .flow-el.is-on[data-delay='4'] {
+    transition-delay: 700ms;
+  }
+
+  /* Step indicator: the active segment fills over the step's duration. */
+  .step-fill {
+    transform-origin: left center;
+    animation: step-fill var(--step-duration, 4200ms) linear both;
+  }
+  .step-fill[data-paused='true'] {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes step-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
-import { TaskBrowser } from '../features/tasks/TaskBrowser';
+import { buttonClasses } from '../components/ui/Button';
 import { PageHeader } from '../components/ui/States';
+import { TaskBrowser } from '../features/tasks/TaskBrowser';
 import { formatDate } from '../lib/format';
 
 export function TasksPage() {
@@ -16,23 +17,24 @@ export function TasksPage() {
 export function ProfilePage() {
   const { user } = useAuth();
   if (!user) return null;
+  const rows = [
+    ['Full name', user.fullName],
+    ['Email', user.email],
+    ['Role', user.role === 'ADMIN' ? 'Administrator' : 'User'],
+    ['Member since', formatDate(user.createdAt)],
+  ];
   return (
     <>
       <PageHeader title="Profile" />
-      <dl className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
-        {[
-          ['Full name', user.fullName],
-          ['Email', user.email],
-          ['Role', user.role === 'ADMIN' ? 'Administrator' : 'User'],
-          ['Member since', formatDate(user.createdAt)],
-        ].map(([label, value]) => (
-          <div key={label} className="grid gap-1 px-5 py-4 sm:grid-cols-3">
-            <dt className="text-sm text-slate-500">{label}</dt>
-            <dd className="break-words text-sm font-medium text-slate-900 sm:col-span-2">{value}</dd>
+      <dl className="max-w-prose divide-y divide-line rounded-card border border-line bg-surface">
+        {rows.map(([label, value]) => (
+          <div key={label} className="grid gap-4 px-20 py-16 sm:grid-cols-3">
+            <dt className="text-body text-ink-muted">{label}</dt>
+            <dd className="break-words text-body text-ink sm:col-span-2">{value}</dd>
           </div>
         ))}
       </dl>
-      <p className="mt-4 text-sm text-slate-500">
+      <p className="mt-16 max-w-prose rounded-card bg-surface-tint p-16 text-body text-ink-brand">
         The same account works in the ProjectFlow Android app — log in there with this email.
       </p>
     </>
@@ -41,11 +43,11 @@ export function ProfilePage() {
 
 export function NotFoundPage() {
   return (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
-      <p className="text-sm font-semibold text-brand-600">404</p>
-      <h1 className="mt-2 text-2xl font-bold text-slate-900">Page not found</h1>
-      <p className="mt-2 text-sm text-slate-500">The page you're looking for doesn't exist.</p>
-      <Link to="/" className="mt-6 text-sm font-medium text-brand-700 hover:underline">
+    <div className="flex flex-col items-center justify-center py-80 text-center">
+      <p className="text-label text-ink-muted">404</p>
+      <h1 className="mt-8 text-heading text-ink-brand">Page not found</h1>
+      <p className="mt-8 text-body-lg text-ink-muted">The page you're looking for doesn't exist.</p>
+      <Link to="/" className={buttonClasses('primary', 'md', 'mt-24')}>
         Go to dashboard
       </Link>
     </div>

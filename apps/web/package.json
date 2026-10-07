@@ -9,8 +9,9 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src",
-    "test": "vitest run"
+    "lint": "eslint src && node scripts/check-tokens.mjs",
+    "test": "vitest run",
+    "lint:tokens": "node scripts/check-tokens.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

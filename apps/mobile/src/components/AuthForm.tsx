@@ -128,9 +128,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  logoMark: { color: '#fff', fontSize: 30, fontWeight: '800' },
-  brand: { textAlign: 'center', fontSize: 20, fontWeight: '800', color: colors.text, marginTop: 8 },
-  title: { fontSize: 24, fontWeight: '700', color: colors.text, marginTop: 28 },
+  logoMark: { color: colors.onBrand, fontSize: 30, fontWeight: '400' },
+  brand: { textAlign: 'center', fontSize: 20, fontWeight: '400', color: colors.text, marginTop: 8 },
+  title: { fontSize: 24, fontWeight: '400', color: colors.text, marginTop: 28 },
   subtitle: { fontSize: 15, color: colors.muted, marginTop: 4, marginBottom: 20 },
   notice: {
     backgroundColor: colors.warningSoft,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 10,
     marginBottom: 14,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   formError: {
     backgroundColor: colors.dangerSoft,
@@ -149,5 +149,5 @@ const styles = StyleSheet.create({
   },
   switch: { flexDirection: 'row', justifyContent: 'center', marginTop: 20, flexWrap: 'wrap' },
   switchText: { color: colors.muted, fontSize: 15 },
-  link: { color: colors.brand, fontWeight: '600', fontSize: 15 },
+  link: { color: colors.brand, fontWeight: '400', fontSize: 15 },
 });

@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
   row: { paddingVertical: 10 },
   divider: { borderTopWidth: 1, borderTopColor: colors.border },
   label: { fontSize: 13, color: colors.muted },
-  value: { fontSize: 16, color: colors.text, fontWeight: '600', marginTop: 2 },
+  value: { fontSize: 16, color: colors.text, fontWeight: '400', marginTop: 2 },
   footer: { textAlign: 'center', color: colors.faint, fontSize: 12, marginTop: 24 },
 });

@@ -1,18 +1,18 @@
+import { AxiosError } from 'axios';
 import { ArrowLeft, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useDeleteProject, useProject } from '../api/hooks';
-import { ProjectFormModal } from '../features/projects/ProjectFormModal';
-import { TaskBrowser } from '../features/tasks/TaskBrowser';
 import { ProgressBar, ProjectStatusBadge } from '../components/ui/Badges';
-import { Button } from '../components/ui/Button';
+import { Button, buttonClasses } from '../components/ui/Button';
 import { ConfirmDialog } from '../components/ui/Modal';
 import { Skeleton } from '../components/ui/Spinner';
 import { EmptyState, ErrorState } from '../components/ui/States';
+import { ProjectFormModal } from '../features/projects/ProjectFormModal';
+import { TaskBrowser } from '../features/tasks/TaskBrowser';
 import { getErrorMessage } from '../lib/errors';
 import { formatDate } from '../lib/format';
-import { AxiosError } from 'axios';
 
 export function ProjectDetailPage() {
   const { id = '' } = useParams();
@@ -24,10 +24,10 @@ export function ProjectDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
-        <Skeleton className="h-8 w-1/2" />
-        <Skeleton className="h-36" />
-        <Skeleton className="h-64" />
+      <div className="flex flex-col gap-16">
+        <Skeleton className="h-40" />
+        <Skeleton className="h-160" />
+        <Skeleton className="h-160" />
       </div>
     );
   }
@@ -39,7 +39,7 @@ export function ProjectDetailPage() {
         title="Project not found"
         description="It may have been deleted, or you don't have access to it."
         action={
-          <Link to="/projects" className="text-sm font-medium text-brand-700 hover:underline">
+          <Link to="/projects" className={buttonClasses('secondary')}>
             Back to projects
           </Link>
         }
@@ -58,57 +58,55 @@ export function ProjectDetailPage() {
       onError: (err) => toast.error(getErrorMessage(err)),
     });
 
+  const facts = [
+    ['Start date', formatDate(project.startDate)],
+    ['End date', formatDate(project.endDate)],
+    ['Created', formatDate(project.createdAt)],
+    ['Tasks done', `${project.completedTaskCount} / ${project.taskCount}`],
+  ];
+
   return (
     <>
-      <Link to="/projects" className="mb-4 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
-        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> All projects
+      <Link to="/projects" className={buttonClasses('quiet', 'sm', 'mb-16 -ml-14')}>
+        <ArrowLeft className="size-16" aria-hidden="true" /> All projects
       </Link>
 
-      <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      {/* Project hero: forest panel, the app-side echo of the auth screen's notched panel. */}
+      <section className="mb-32 rounded-panel bg-panel p-24 text-on-panel sm:p-32">
+        <div className="flex flex-col gap-16 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <h1 className="break-words text-2xl font-bold tracking-tight text-slate-900">{project.name}</h1>
-              <ProjectStatusBadge status={project.status} />
+            <div className="flex flex-wrap items-center gap-12">
+              <h1 className="text-heading-sm break-words lg:text-heading">{project.name}</h1>
+              <ProjectStatusBadge status={project.status} onPanel />
             </div>
-            <p className="mt-2 whitespace-pre-line text-sm text-slate-600">{project.description ?? 'No description'}</p>
+            <p className="mt-8 max-w-prose whitespace-pre-line text-body-lg text-on-panel-muted">
+              {project.description ?? 'No description'}
+            </p>
           </div>
-          <div className="flex shrink-0 gap-2">
-            <Button variant="secondary" onClick={() => setEditing(true)}>
-              <Pencil className="h-4 w-4" aria-hidden="true" /> Edit
+          <div className="flex shrink-0 gap-8">
+            <Button variant="inverse" onClick={() => setEditing(true)}>
+              <Pencil className="size-16" aria-hidden="true" /> Edit
             </Button>
-            <Button variant="secondary" onClick={() => setDeleting(true)} className="text-red-600 hover:bg-red-50">
-              <Trash2 className="h-4 w-4" aria-hidden="true" /> Delete
+            <Button variant="inverse" onClick={() => setDeleting(true)} aria-label="Delete project">
+              <Trash2 className="size-16" aria-hidden="true" /> Delete
             </Button>
           </div>
         </div>
-        <dl className="mt-5 grid grid-cols-2 gap-4 text-sm sm:grid-cols-4">
-          <div>
-            <dt className="text-slate-500">Start date</dt>
-            <dd className="font-medium text-slate-900">{formatDate(project.startDate)}</dd>
-          </div>
-          <div>
-            <dt className="text-slate-500">End date</dt>
-            <dd className="font-medium text-slate-900">{formatDate(project.endDate)}</dd>
-          </div>
-          <div>
-            <dt className="text-slate-500">Created</dt>
-            <dd className="font-medium text-slate-900">{formatDate(project.createdAt)}</dd>
-          </div>
-          <div>
-            <dt className="text-slate-500">Tasks done</dt>
-            <dd className="font-medium text-slate-900">
-              {project.completedTaskCount} / {project.taskCount}
-            </dd>
-          </div>
+        <dl className="mt-24 grid grid-cols-2 gap-16 border-t border-on-panel/15 pt-20 sm:grid-cols-4">
+          {facts.map(([label, value]) => (
+            <div key={label}>
+              <dt className="text-label text-on-panel-muted">{label}</dt>
+              <dd className="mt-2 text-body-lg">{value}</dd>
+            </div>
+          ))}
         </dl>
-        <div className="mt-4">
-          <ProgressBar value={project.progress} label="Project progress" />
-          <p className="mt-1 text-xs text-slate-500">{project.progress}% complete</p>
+        <div className="mt-20">
+          <ProgressBar value={project.progress} label="Project progress" tone="dark" />
+          <p className="mt-6 text-label text-on-panel-muted">{project.progress}% complete</p>
         </div>
-      </div>
+      </section>
 
-      <h2 className="mb-3 text-lg font-semibold text-slate-900">Tasks</h2>
+      <h2 className="mb-16 text-subheading text-ink-brand">Tasks</h2>
       <TaskBrowser projectId={project.id} />
 
       <ProjectFormModal open={editing} project={project} onClose={() => setEditing(false)} />
@@ -117,7 +115,8 @@ export function ProjectDetailPage() {
         title="Delete project?"
         message={
           <>
-            <strong>{project.name}</strong> and all of its {project.taskCount} task(s) will be permanently deleted.
+            <span className="text-ink">{project.name}</span> and all of its {project.taskCount} task(s) will be permanently
+            deleted.
           </>
         }
         loading={remove.isPending}

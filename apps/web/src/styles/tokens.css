@@ -1,0 +1,198 @@
+/*
+ * ProjectFlow design tokens — the single source of truth for every visual value in the web app.
+ * Visual language: "Flecto" (see docs/DESIGN_SYSTEM.md). Warm cream canvas, forest-teal surfaces,
+ * sparing mint accents, flat (border-driven, near-shadowless), one font weight.
+ *
+ * Tailwind's default scales are reset (`--*: initial`) so ONLY these tokens generate utilities:
+ * `bg-slate-100`, `p-3`, `font-bold`, `rounded-xl`, `shadow-lg` simply do not exist in this project.
+ * `npm run lint:tokens -w @pms/web` additionally rejects arbitrary values and hard-coded colours.
+ */
+@theme {
+  /* ------------------------------------------------------------------ */
+  /* Reset Tailwind defaults — the system below is the complete set.     */
+  /* ------------------------------------------------------------------ */
+  --color-*: initial;
+  --spacing-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+  --tracking-*: initial;
+  --leading-*: initial;
+  --container-*: initial;
+  --animate-*: initial;
+  --ease-*: initial;
+
+  /* ---------------------------- Palette ----------------------------- */
+  /* Brand primitives (from the Flecto reference). Prefer the semantic tokens below in components. */
+  --color-forest-ink: #004737; /* dominant brand surface */
+  --color-mint-pulse: #56f09f; /* filled CTA / active accents — small areas only */
+  --color-mint-mist: #d4ffe8; /* tinted highlight, ghost pills */
+  --color-cream-canvas: #fffbec; /* page background — never pure white */
+  --color-deep-loam: #032019; /* text on light surfaces */
+  --color-sage-whisper: #99b5af; /* muted text on forest, secondary borders */
+  --color-stone-mist: #ccdad7; /* hairlines, input borders */
+  --color-bone: #faf2d5; /* warm card lift */
+  --color-charcoal: #222222; /* neutral outlines */
+  --color-paper: #ffffff; /* card/input fill on cream (never the page background) */
+
+  /* System extensions — required for functional UI states the reference does not cover. */
+  --color-moss: #48655e; /* AA-contrast muted text on cream (sage-whisper is ~2:1 on cream) */
+  --color-mint-pulse-strong: #3ddc88; /* hover/pressed state of mint-pulse */
+  --color-forest-ink-strong: #003629; /* hover/pressed state of forest-ink */
+  --color-clay: #a83a22; /* errors, destructive actions, high priority, overdue */
+  --color-clay-mist: #fbe4da; /* error/destructive tint */
+  --color-amber: #8a5a00; /* warning text (offline) */
+  --color-amber-mist: #fff1c7; /* warning tint */
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* ------------------------- Typography ----------------------------- */
+  /* Monoweight system: hierarchy comes from size and tracking, never from weight. */
+  --font-sans: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-weight-regular: 400;
+
+  /* Each size ships with its own line-height and tracking. */
+  --text-caption: 10px;
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.02em;
+  --text-label: 12px;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.02em;
+  --text-body: 14px;
+  --text-body--line-height: 1.45;
+  --text-body--letter-spacing: 0em;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 1.5;
+  --text-body-lg--letter-spacing: 0em;
+  --text-subheading: 20px;
+  --text-subheading--line-height: 1.3;
+  --text-subheading--letter-spacing: -0.01em;
+  --text-heading-sm: 28px;
+  --text-heading-sm--line-height: 1.2;
+  --text-heading-sm--letter-spacing: -0.02em;
+  --text-heading: 36px;
+  --text-heading--line-height: 1.15;
+  --text-heading--letter-spacing: -0.03em;
+  --text-heading-lg: 56px;
+  --text-heading-lg--line-height: 1.05;
+  --text-heading-lg--letter-spacing: -0.043em;
+
+  /* --------------------------- Spacing ------------------------------ */
+  /* Keys equal their pixel value: `p-16` = 16px, `gap-12` = 12px. Reference scale + layout steps. */
+  --spacing-0: 0px;
+  --spacing-1: 1px;
+  --spacing-2: 2px;
+  --spacing-4: 4px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-14: 14px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-56: 56px;
+  --spacing-64: 64px;
+  --spacing-80: 80px;
+  --spacing-120: 120px;
+  --spacing-160: 160px;
+  /* Named layout dimensions */
+  --spacing-sidebar: 264px;
+  --spacing-topbar: 64px;
+  --spacing-notch: 136px; /* height of the notched panel's top tab */
+
+  /* Max-width containers */
+  --container-form: 400px;
+  --container-dialog: 560px;
+  --container-prose: 640px;
+  --container-page: 1200px;
+
+  /* --------------------------- Radius ------------------------------- */
+  --radius-icon: 6px; /* icon squares */
+  --radius-chip: 10px; /* inputs, small chips, selects */
+  --radius-card: 19px; /* cards, dialogs */
+  --radius-panel: 28px; /* forest panels, notched hero */
+  --radius-button: 40px; /* every button */
+  --radius-pill: 9999px; /* badges, tags, avatars */
+
+  /* --------------------------- Elevation ---------------------------- */
+  /* Flat system: borders carry structure. One subtle shadow, only for borderless lifts. */
+  --shadow-subtle: 0px 3px 2px 0px rgb(0 0 0 / 0.04);
+
+  /* ---------------------------- Motion ------------------------------ */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --default-transition-duration: 180ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-spin: spin 0.9s linear infinite;
+  --animate-pulse: pulse 1.6s var(--ease-in-out) infinite;
+  --animate-fade-in: fade-in 240ms var(--ease-out) both;
+  --animate-rise-in: rise-in 420ms var(--ease-out) both;
+}
+
+/*
+ * Semantic aliases — what components actually use. Re-pointing these re-themes the app.
+ * `inline` makes the utilities reference the primitive values directly.
+ */
+@theme inline {
+  --color-canvas: var(--color-cream-canvas); /* page background */
+  --color-surface: var(--color-paper); /* cards, inputs, dialogs */
+  --color-surface-warm: var(--color-bone); /* lifted/secondary cards */
+  --color-surface-tint: var(--color-mint-mist); /* selected / highlighted */
+  --color-panel: var(--color-forest-ink); /* dark structural surfaces */
+  --color-panel-hover: var(--color-forest-ink-strong);
+
+  --color-ink: var(--color-deep-loam); /* primary text on light */
+  --color-ink-muted: var(--color-moss); /* secondary text on light */
+  --color-ink-brand: var(--color-forest-ink); /* headings / links on light */
+  --color-on-panel: var(--color-cream-canvas); /* primary text on panel */
+  --color-on-panel-muted: var(--color-sage-whisper); /* secondary text on panel */
+
+  --color-line: var(--color-stone-mist); /* hairlines on light */
+  --color-line-strong: var(--color-sage-whisper);
+
+  --color-accent: var(--color-mint-pulse);
+  --color-accent-hover: var(--color-mint-pulse-strong);
+  --color-on-accent: var(--color-deep-loam);
+  --color-accent-soft: var(--color-mint-mist);
+
+  --color-danger: var(--color-clay);
+  --color-danger-soft: var(--color-clay-mist);
+  --color-warning: var(--color-amber);
+  --color-warning-soft: var(--color-amber-mist);
+
+  --color-focus: var(--color-forest-ink);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--spacing-12));
+  }
+}

@@ -2,18 +2,47 @@ import clsx from 'clsx';
 import type { ButtonHTMLAttributes } from 'react';
 import { Spinner } from './Spinner';
 
-type Variant = 'primary' | 'secondary' | 'danger' | 'ghost';
+export type ButtonVariant = 'primary' | 'brand' | 'secondary' | 'soft' | 'quiet' | 'danger' | 'inverse';
+export type ButtonSize = 'sm' | 'md' | 'icon';
 
-const variants: Record<Variant, string> = {
-  primary: 'bg-brand-600 text-white hover:bg-brand-700 disabled:bg-brand-600/60',
-  secondary: 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-50',
-  danger: 'bg-red-600 text-white hover:bg-red-700 disabled:bg-red-600/60',
-  ghost: 'text-slate-600 hover:bg-slate-100',
+const base =
+  'inline-flex shrink-0 items-center justify-center gap-8 rounded-button text-body whitespace-nowrap transition-colors disabled:cursor-not-allowed disabled:opacity-50';
+
+const variants: Record<ButtonVariant, string> = {
+  /** Filled mint — the one primary action per view. */
+  primary: 'bg-accent text-on-accent hover:bg-accent-hover',
+  /** Solid forest — strong action on light surfaces when mint would compete. */
+  brand: 'bg-panel text-on-panel hover:bg-panel-hover',
+  /** Outlined — secondary actions. */
+  secondary: 'border border-ink/80 text-ink hover:bg-surface-tint',
+  /** Mint-mist pill — tertiary actions and filters. */
+  soft: 'bg-accent-soft text-ink-brand hover:bg-accent',
+  /** Text-only — toolbar and icon actions. */
+  quiet: 'text-ink-muted hover:bg-surface-tint hover:text-ink-brand',
+  /** Destructive confirmation. */
+  danger: 'bg-danger text-surface hover:bg-danger/90',
+  /** Outlined on forest panels. */
+  inverse: 'border border-on-panel/40 text-on-panel hover:bg-on-panel/10',
 };
 
+const sizes: Record<ButtonSize, string> = {
+  sm: 'px-14 py-6 text-label',
+  md: 'px-24 py-10',
+  icon: 'size-40',
+};
+
+/** Shared so links (react-router <Link>) can look exactly like buttons. */
+export function buttonClasses(
+  variant: ButtonVariant = 'primary',
+  size: ButtonSize = 'md',
+  className?: string | false,
+) {
+  return clsx(base, variants[variant], sizes[size], className);
+}
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: Variant;
-  size?: 'sm' | 'md';
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   loading?: boolean;
 }
 
@@ -32,15 +61,10 @@ export function Button({
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={clsx(
-        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors disabled:cursor-not-allowed',
-        size === 'sm' ? 'px-3 py-1.5 text-sm' : 'px-4 py-2 text-sm',
-        variants[variant],
-        className,
-      )}
+      className={buttonClasses(variant, size, className)}
       {...rest}
     >
-      {loading && <Spinner className="h-4 w-4" />}
+      {loading && <Spinner className="size-16" />}
       {children}
     </button>
   );

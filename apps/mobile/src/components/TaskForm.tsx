@@ -177,7 +177,7 @@ export function TaskForm({ task, projectId }: { task?: Task; projectId?: string 
 
 const styles = StyleSheet.create({
   container: { padding: 16, paddingBottom: 48 },
-  label: { fontSize: 14, fontWeight: '600', color: colors.text, marginBottom: 8 },
+  label: { fontSize: 14, fontWeight: '400', color: colors.text, marginBottom: 8 },
   gap: { marginTop: 18 },
   hint: { color: colors.muted },
   error: { color: colors.danger, fontSize: 13, marginTop: 6 },
@@ -187,8 +187,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: radius,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     padding: 12,
   },
-  clear: { color: colors.brand, fontWeight: '600' },
+  clear: { color: colors.brand, fontWeight: '400' },
 });

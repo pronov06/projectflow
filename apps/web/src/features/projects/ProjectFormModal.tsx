@@ -80,7 +80,7 @@ export function ProjectFormModal({ open, onClose, project, onSaved }: Props) {
         </>
       }
     >
-      <form id="project-form" onSubmit={onSubmit} noValidate className="space-y-4">
+      <form id="project-form" onSubmit={onSubmit} noValidate className="flex flex-col gap-16">
         <TextField label="Project name" autoFocus maxLength={120} error={errors.name?.message} {...register('name')} />
         <TextAreaField
           label="Description"
@@ -94,7 +94,7 @@ export function ProjectFormModal({ open, onClose, project, onSaved }: Props) {
           error={errors.status?.message}
           {...register('status')}
         />
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-16 sm:grid-cols-2">
           <TextField label="Start date" type="date" error={errors.startDate?.message} {...register('startDate')} />
           <TextField label="End date" type="date" error={errors.endDate?.message} {...register('endDate')} />
         </div>

@@ -54,7 +54,7 @@ See [`docs/REQUIREMENTS_CHECKLIST.md`](docs/REQUIREMENTS_CHECKLIST.md) for every
 |---|---|
 | Backend | Node.js 22, **Express 5**, TypeScript, **Prisma 6**, zod, jsonwebtoken, bcryptjs, helmet, express-rate-limit, pino |
 | Database | **PostgreSQL** (Neon in production) |
-| Web | **React 19**, Vite, TypeScript, React Router, TanStack Query, react-hook-form, Tailwind CSS 4 |
+| Web | **React 19**, Vite, TypeScript, React Router, TanStack Query, react-hook-form, Tailwind CSS 4 with a strict token system ([docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md)) |
 | Mobile | **Expo SDK 57** (React Native 0.86), expo-router, TanStack Query, expo-secure-store, NetInfo |
 | Shared | `@pms/shared`: zod schemas, enums and TypeScript types used by all three apps |
 | Testing | Vitest, Supertest (against real Postgres), Testing Library |
@@ -224,6 +224,7 @@ CI (`.github/workflows/ci.yml`) runs lint, typecheck, every test suite against a
 
 - [API reference](docs/API.md), plus Swagger UI at `/api/docs` and a [Postman collection](docs/postman_collection.json)
 - [Database schema and ER diagram](docs/DATABASE.md) ([SVG](docs/er-diagram.svg))
+- [Design system (tokens, components, auth layout)](docs/DESIGN_SYSTEM.md)
 - [Design decisions and trade-offs](docs/DECISIONS.md)
 - [Requirements checklist](docs/REQUIREMENTS_CHECKLIST.md)
 - [Demo script](docs/DEMO_SCRIPT.md)

@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   top: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
-  name: { flex: 1, fontSize: 17, fontWeight: '700', color: colors.text },
+  name: { flex: 1, fontSize: 17, fontWeight: '400', color: colors.text },
   desc: { color: colors.muted, marginTop: 6 },
   bar: { height: 6, backgroundColor: colors.border, borderRadius: 3, marginTop: 14, overflow: 'hidden' },
   fill: { height: '100%', backgroundColor: colors.brand },

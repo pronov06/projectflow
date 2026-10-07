@@ -8,7 +8,7 @@ export function Fab({ label, onPress }: { label: string; onPress: () => void }) 
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={label.replace('+', 'Create')}
-      style={({ pressed }) => [styles.fab, pressed && { backgroundColor: colors.brandDark }]}
+      style={({ pressed }) => [styles.fab, pressed && { opacity: 0.85 }]}
     >
       <Text style={styles.text}>{label}</Text>
     </Pressable>
@@ -20,15 +20,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 16,
     bottom: 20,
-    backgroundColor: colors.brand,
+    backgroundColor: colors.accent,
     borderRadius: 999,
     paddingHorizontal: 20,
     paddingVertical: 14,
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
+    // Flat system: a hairline instead of a drop shadow.
+    borderWidth: 1,
+    borderColor: colors.brand,
   },
-  text: { color: '#fff', fontWeight: '700', fontSize: 15 },
+  text: { color: colors.onAccent, fontWeight: '400', fontSize: 15 },
 });

@@ -86,7 +86,7 @@ export function TaskList({ projectId, header }: { projectId?: string; header?: R
 const styles = StyleSheet.create({
   content: { padding: 16, paddingBottom: 96, flexGrow: 1 },
   search: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: radius,

@@ -29,7 +29,22 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
           <AuthProvider>
             <App />
-            <Toaster position="top-right" richColors closeButton />
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                unstyled: true,
+                classNames: {
+                  // Layout only here; colours come from the per-type slots so they never compete.
+                  toast: 'flex w-full items-center gap-12 rounded-card border px-16 py-14 text-body shadow-subtle',
+                  default: 'border-line bg-surface text-ink',
+                  info: 'border-line bg-surface text-ink',
+                  success: 'border-panel bg-panel text-on-panel',
+                  error: 'border-danger/30 bg-danger-soft text-danger',
+                  warning: 'border-warning/30 bg-warning-soft text-warning',
+                  description: 'text-label',
+                },
+              }}
+            />
           </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>

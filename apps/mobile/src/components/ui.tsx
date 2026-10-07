@@ -10,7 +10,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 import { getErrorMessage, isNetworkError } from '../lib/api';
-import { colors, radius } from '../theme';
+import { buttonRadius, colors, radius } from '../theme';
 
 export function Button({
   title,
@@ -30,10 +30,10 @@ export function Button({
   const isDisabled = disabled || loading;
   const palette =
     variant === 'primary'
-      ? { bg: colors.brand, fg: '#fff', border: colors.brand }
+      ? { bg: colors.accent, fg: colors.onAccent, border: colors.accent }
       : variant === 'danger'
-        ? { bg: colors.dangerSoft, fg: colors.danger, border: '#FECACA' }
-        : { bg: '#fff', fg: colors.text, border: colors.border };
+        ? { bg: colors.dangerSoft, fg: colors.danger, border: colors.dangerSoft }
+        : { bg: colors.card, fg: colors.text, border: colors.text };
   return (
     <Pressable
       accessibilityRole="button"
@@ -157,20 +157,20 @@ export function ErrorView({ error, onRetry }: { error: unknown; onRetry: () => v
 export const styles = StyleSheet.create({
   button: {
     minHeight: 48,
-    borderRadius: radius,
+    borderRadius: buttonRadius,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
   },
-  buttonText: { fontSize: 16, fontWeight: '600' },
+  buttonText: { fontSize: 16, fontWeight: '400' },
   field: { marginBottom: 14 },
-  label: { fontSize: 14, fontWeight: '600', color: colors.text, marginBottom: 6 },
+  label: { fontSize: 14, fontWeight: '400', color: colors.text, marginBottom: 6 },
   input: {
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: radius,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     paddingHorizontal: 12,
     paddingVertical: 12,
     fontSize: 16,
@@ -179,7 +179,7 @@ export const styles = StyleSheet.create({
   error: { color: colors.danger, fontSize: 13, marginTop: 4 },
   hint: { color: colors.muted, fontSize: 13, marginTop: 4 },
   badge: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 2, alignSelf: 'flex-start' },
-  badgeText: { fontSize: 12, fontWeight: '600' },
+  badgeText: { fontSize: 12, fontWeight: '400' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: {
     paddingHorizontal: 12,
@@ -187,11 +187,11 @@ export const styles = StyleSheet.create({
     borderRadius: 999,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
   },
   chipSelected: { backgroundColor: colors.brand, borderColor: colors.brand },
-  chipText: { fontSize: 13, color: colors.text, fontWeight: '500' },
-  chipTextSelected: { color: '#fff' },
+  chipText: { fontSize: 13, color: colors.text, fontWeight: '400' },
+  chipTextSelected: { color: colors.onBrand },
   card: {
     backgroundColor: colors.card,
     borderRadius: radius,
@@ -200,6 +200,6 @@ export const styles = StyleSheet.create({
     padding: 16,
   },
   center: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: 32, minHeight: 300 },
-  emptyTitle: { fontSize: 17, fontWeight: '600', color: colors.text, textAlign: 'center' },
+  emptyTitle: { fontSize: 17, fontWeight: '400', color: colors.text, textAlign: 'center' },
   emptyText: { fontSize: 14, color: colors.muted, textAlign: 'center', marginTop: 6 },
 });

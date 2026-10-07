@@ -48,7 +48,7 @@ export function TaskItem({ task, showProject = true }: { task: Task; showProject
         <View style={styles.meta}>
           <Badge label={TASK_STATUS_LABELS[task.status]} {...statusColors[task.status]} />
           <Badge label={TASK_PRIORITY_LABELS[task.priority]} {...priorityColors[task.priority]} />
-          <Text style={[styles.due, overdue && { color: colors.danger, fontWeight: '600' }]}>
+          <Text style={[styles.due, overdue && { color: colors.danger, fontWeight: '400' }]}>
             {task.dueDate ? `Due ${formatDate(task.dueDate)}${overdue ? ' · Overdue' : ''}` : 'No due date'}
           </Text>
         </View>
@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   checkDone: { backgroundColor: colors.brand, borderColor: colors.brand },
-  checkMark: { color: '#fff', fontWeight: '800', fontSize: 15 },
-  name: { fontSize: 16, fontWeight: '600', color: colors.text },
+  checkMark: { color: colors.onBrand, fontWeight: '400', fontSize: 15 },
+  name: { fontSize: 16, fontWeight: '400', color: colors.text },
   nameDone: { color: colors.faint, textDecorationLine: 'line-through' },
   project: { fontSize: 13, color: colors.brand, marginTop: 2 },
   meta: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6, marginTop: 8 },

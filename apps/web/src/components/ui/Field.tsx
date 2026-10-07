@@ -8,10 +8,11 @@ import {
   type TextareaHTMLAttributes,
 } from 'react';
 
-const control =
-  'block w-full rounded-lg border bg-white px-3 py-2 text-sm text-slate-900 shadow-xs placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 disabled:bg-slate-100';
+/** Shared control styling: paper fill, stone hairline, forest focus with a mint-mist halo. */
+export const controlClasses =
+  'block w-full rounded-chip border bg-surface px-14 py-10 text-body text-ink placeholder:text-ink-muted/60 transition-colors focus:border-panel focus:outline-none focus:ring-4 focus:ring-accent-soft disabled:bg-surface-warm disabled:text-ink-muted';
 
-const borderFor = (error?: string) => (error ? 'border-red-400' : 'border-slate-300');
+const borderFor = (error?: string) => (error ? 'border-danger' : 'border-line hover:border-line-strong');
 
 interface FieldWrapperProps {
   id: string;
@@ -23,17 +24,19 @@ interface FieldWrapperProps {
 
 function FieldWrapper({ id, label, error, hint, children }: FieldWrapperProps) {
   return (
-    <div className="space-y-1">
-      <label htmlFor={id} className="block text-sm font-medium text-slate-700">
+    <div className="flex flex-col gap-6">
+      <label htmlFor={id} className="text-label text-ink-muted">
         {label}
       </label>
       {children}
       {error ? (
-        <p id={`${id}-error`} className="text-xs text-red-600" role="alert">
+        <p id={`${id}-error`} className="text-label text-danger" role="alert">
           {error}
         </p>
       ) : hint ? (
-        <p className="text-xs text-slate-500">{hint}</p>
+        <p id={`${id}-hint`} className="text-label text-ink-muted">
+          {hint}
+        </p>
       ) : null}
     </div>
   );
@@ -45,6 +48,9 @@ interface CommonProps {
   hint?: string;
 }
 
+const describedBy = (id: string, error?: string, hint?: string) =>
+  error ? `${id}-error` : hint ? `${id}-hint` : undefined;
+
 export const TextField = forwardRef<HTMLInputElement, CommonProps & InputHTMLAttributes<HTMLInputElement>>(
   function TextField({ label, error, hint, className, ...rest }, ref) {
     const id = useId();
@@ -54,8 +60,8 @@ export const TextField = forwardRef<HTMLInputElement, CommonProps & InputHTMLAtt
           ref={ref}
           id={id}
           aria-invalid={!!error}
-          aria-describedby={error ? `${id}-error` : undefined}
-          className={clsx(control, borderFor(error), className)}
+          aria-describedby={describedBy(id, error, hint)}
+          className={clsx(controlClasses, borderFor(error), className)}
           {...rest}
         />
       </FieldWrapper>
@@ -75,8 +81,8 @@ export const TextAreaField = forwardRef<
         id={id}
         rows={3}
         aria-invalid={!!error}
-        aria-describedby={error ? `${id}-error` : undefined}
-        className={clsx(control, borderFor(error), className)}
+        aria-describedby={describedBy(id, error, hint)}
+        className={clsx(controlClasses, borderFor(error), 'resize-y', className)}
         {...rest}
       />
     </FieldWrapper>
@@ -94,7 +100,8 @@ export const SelectField = forwardRef<
         ref={ref}
         id={id}
         aria-invalid={!!error}
-        className={clsx(control, borderFor(error), className)}
+        aria-describedby={describedBy(id, error, hint)}
+        className={clsx(controlClasses, borderFor(error), className)}
         {...rest}
       >
         {options.map((o) => (
@@ -107,7 +114,7 @@ export const SelectField = forwardRef<
   );
 });
 
-/** Compact select for filter bars (label is visually hidden). */
+/** Compact pill select for filter bars (label is visually hidden). */
 export function FilterSelect({
   label,
   value,
@@ -129,7 +136,10 @@ export function FilterSelect({
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={clsx(control, 'border-slate-300')}
+        className={clsx(
+          'block w-full rounded-button border bg-surface px-16 py-10 text-body text-ink transition-colors focus:border-panel focus:outline-none focus:ring-4 focus:ring-accent-soft',
+          value ? 'border-panel bg-surface-tint text-ink-brand' : 'border-line hover:border-line-strong',
+        )}
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>

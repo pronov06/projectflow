@@ -44,10 +44,10 @@ export default function DashboardScreen() {
       ) : (
         <View style={styles.grid}>
           <Stat label="Total projects" value={data.totalProjects} accent={colors.brand} />
-          <Stat label="Projects in progress" value={data.projectsInProgress} accent="#3B82F6" />
-          <Stat label="Total tasks" value={data.totalTasks} accent="#64748B" />
-          <Stat label="Completed tasks" value={data.completedTasks} accent="#10B981" />
-          <Stat label="Pending tasks" value={data.pendingTasks} accent="#F59E0B" />
+          <Stat label="Projects in progress" value={data.projectsInProgress} accent={colors.brand} />
+          <Stat label="Total tasks" value={data.totalTasks} accent={colors.faint} />
+          <Stat label="Completed tasks" value={data.completedTasks} accent={colors.accent} />
+          <Stat label="Pending tasks" value={data.pendingTasks} accent={colors.warning} />
           <Stat label="Overdue tasks" value={data.overdueTasks} accent={colors.danger} />
         </View>
       )}
@@ -57,7 +57,7 @@ export default function DashboardScreen() {
 
 const styles = StyleSheet.create({
   container: { padding: 16, flexGrow: 1 },
-  hello: { fontSize: 24, fontWeight: '700', color: colors.text },
+  hello: { fontSize: 24, fontWeight: '400', color: colors.text },
   sub: { color: colors.muted, marginTop: 2, marginBottom: 16 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   stat: {
@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   accent: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 4 },
-  statValue: { fontSize: 30, fontWeight: '800', color: colors.text },
+  statValue: { fontSize: 30, fontWeight: '400', color: colors.text },
   statLabel: { fontSize: 13, color: colors.muted, marginTop: 2 },
 });

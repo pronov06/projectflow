@@ -1,29 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle } from 'lucide-react';
-import type { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { loginSchema, registerSchema, type LoginInput, type RegisterInput } from '@pms/shared';
 import { useAuth } from '../auth/AuthContext';
-import { Logo } from '../components/layout/AppLayout';
 import { Button } from '../components/ui/Button';
 import { TextField } from '../components/ui/Field';
+import { AuthLayout } from '../features/auth/AuthLayout';
 import { applyServerErrors, getErrorMessage } from '../lib/errors';
 
-function AuthShell({ title, subtitle, children }: { title: string; subtitle: ReactNode; children: ReactNode }) {
+function FormHeader({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-brand-50 via-white to-slate-100 px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="mb-8 flex justify-center">
-          <Logo />
-        </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <h1 className="text-xl font-bold text-slate-900">{title}</h1>
-          <p className="mt-1 text-sm text-slate-500">{subtitle}</p>
-          <div className="mt-6">{children}</div>
-        </div>
-      </div>
+    <div className="mb-24">
+      <h2 className="text-heading-sm text-ink-brand">{title}</h2>
+      <p className="mt-6 text-body text-ink-muted">{children}</p>
     </div>
   );
 }
@@ -31,12 +22,14 @@ function AuthShell({ title, subtitle, children }: { title: string; subtitle: Rea
 function FormError({ message }: { message?: string | null }) {
   if (!message) return null;
   return (
-    <div role="alert" className="mb-4 flex items-start gap-2 rounded-lg bg-red-50 p-3 text-sm text-red-700">
-      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+    <div role="alert" className="mb-16 flex items-start gap-8 rounded-chip bg-danger-soft p-12 text-body text-danger">
+      <AlertCircle className="mt-2 size-16 shrink-0" aria-hidden="true" />
       {message}
     </div>
   );
 }
+
+const linkClass = 'text-ink-brand underline decoration-line-strong underline-offset-4 hover:decoration-ink-brand';
 
 export function LoginPage() {
   const { login, notice, clearNotice } = useAuth();
@@ -62,24 +55,20 @@ export function LoginPage() {
   });
 
   return (
-    <AuthShell
-      title="Welcome back"
-      subtitle={
-        <>
-          New to ProjectFlow?{' '}
-          <Link to="/register" className="font-medium text-brand-700 hover:underline">
-            Create an account
-          </Link>
-        </>
-      }
-    >
+    <AuthLayout title="Plan it. Track it. Ship it." subtitle="Projects and tasks that stay in sync across the web and Android.">
+      <FormHeader title="Welcome back">
+        New to ProjectFlow?{' '}
+        <Link to="/register" className={linkClass}>
+          Create an account
+        </Link>
+      </FormHeader>
       {notice && (
-        <div role="status" className="mb-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-800">
+        <div role="status" className="mb-16 rounded-chip bg-warning-soft p-12 text-body text-warning">
           {notice}
         </div>
       )}
       <FormError message={errors.root?.message} />
-      <form onSubmit={onSubmit} noValidate className="space-y-4">
+      <form onSubmit={onSubmit} noValidate className="flex flex-col gap-16">
         <TextField label="Email" type="email" autoComplete="email" error={errors.email?.message} {...register('email')} />
         <TextField
           label="Password"
@@ -88,11 +77,11 @@ export function LoginPage() {
           error={errors.password?.message}
           {...register('password')}
         />
-        <Button type="submit" loading={isSubmitting} className="w-full">
+        <Button type="submit" loading={isSubmitting} className="mt-8 w-full">
           Log in
         </Button>
       </form>
-    </AuthShell>
+    </AuthLayout>
   );
 }
 
@@ -118,19 +107,15 @@ export function RegisterPage() {
   });
 
   return (
-    <AuthShell
-      title="Create your account"
-      subtitle={
-        <>
-          Already have an account?{' '}
-          <Link to="/login" className="font-medium text-brand-700 hover:underline">
-            Log in
-          </Link>
-        </>
-      }
-    >
+    <AuthLayout title="Start shipping in minutes." subtitle="One account for the ProjectFlow web app and the Android app.">
+      <FormHeader title="Create your account">
+        Already have an account?{' '}
+        <Link to="/login" className={linkClass}>
+          Log in
+        </Link>
+      </FormHeader>
       <FormError message={errors.root?.message} />
-      <form onSubmit={onSubmit} noValidate className="space-y-4">
+      <form onSubmit={onSubmit} noValidate className="flex flex-col gap-16">
         <TextField label="Full name" autoComplete="name" error={errors.fullName?.message} {...register('fullName')} />
         <TextField label="Email" type="email" autoComplete="email" error={errors.email?.message} {...register('email')} />
         <TextField
@@ -141,10 +126,10 @@ export function RegisterPage() {
           error={errors.password?.message}
           {...register('password')}
         />
-        <Button type="submit" loading={isSubmitting} className="w-full">
+        <Button type="submit" loading={isSubmitting} className="mt-8 w-full">
           Create account
         </Button>
       </form>
-    </AuthShell>
+    </AuthLayout>
   );
 }

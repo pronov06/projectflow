@@ -41,14 +41,14 @@ export function TaskBrowser({ projectId }: { projectId?: string }) {
 
   return (
     <section aria-label="Tasks">
-      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center">
+      <div className="mb-20 flex flex-col gap-8 md:flex-row md:items-center">
         <SearchInput
           label="Search tasks"
           placeholder="Search tasks by name…"
           value={f.search}
           onChange={(v) => set('search', v)}
         />
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:flex">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:flex">
           <FilterSelect
             label="Filter by status"
             value={f.status}
@@ -67,14 +67,14 @@ export function TaskBrowser({ projectId }: { projectId?: string }) {
           <FilterSelect label="Sort tasks" value={f.sortBy} onChange={(v) => set('sortBy', v)} options={SORTS} />
         </div>
         <Button onClick={() => setCreating(true)} className="md:ml-auto">
-          <Plus className="h-4 w-4" aria-hidden="true" /> New task
+          <Plus className="size-16" aria-hidden="true" /> New task
         </Button>
       </div>
 
       {query.isLoading ? (
-        <div className="space-y-2">
+        <div className="flex flex-col gap-8">
           {Array.from({ length: 4 }, (_, i) => (
-            <Skeleton key={i} className="h-20" />
+            <Skeleton key={i} className="h-80" />
           ))}
         </div>
       ) : query.isError ? (
@@ -86,7 +86,7 @@ export function TaskBrowser({ projectId }: { projectId?: string }) {
           action={
             !filtered && (
               <Button onClick={() => setCreating(true)}>
-                <Plus className="h-4 w-4" aria-hidden="true" /> New task
+                <Plus className="size-16" aria-hidden="true" /> New task
               </Button>
             )
           }

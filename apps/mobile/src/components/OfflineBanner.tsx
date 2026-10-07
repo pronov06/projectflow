@@ -30,5 +30,5 @@ export function OfflineBanner({ online }: { online: boolean }) {
 
 const styles = StyleSheet.create({
   banner: { backgroundColor: colors.warningSoft, paddingVertical: 8, paddingHorizontal: 16 },
-  text: { color: colors.warning, fontSize: 13, textAlign: 'center', fontWeight: '500' },
+  text: { color: colors.warning, fontSize: 13, textAlign: 'center', fontWeight: '400' },
 });

@@ -100,11 +100,11 @@ export function TaskFormModal({ open, onClose, task, projectId }: Props) {
     >
       {/* Wait for the project list so the project <select> can show the stored value. */}
       {projects.isLoading ? (
-        <div className="flex justify-center py-10 text-brand-600">
-          <Spinner className="h-6 w-6" />
+        <div className="flex justify-center py-40 text-ink-brand">
+          <Spinner className="size-24" />
         </div>
       ) : (
-      <form id="task-form" onSubmit={onSubmit} noValidate className="space-y-4">
+      <form id="task-form" onSubmit={onSubmit} noValidate className="flex flex-col gap-16">
         <TextField label="Task name" autoFocus maxLength={150} error={errors.name?.message} {...register('name')} />
         <TextAreaField
           label="Description"
@@ -118,7 +118,7 @@ export function TaskFormModal({ open, onClose, task, projectId }: Props) {
           error={errors.projectId ? 'Please choose a project' : undefined}
           {...register('projectId')}
         />
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-16 sm:grid-cols-3">
           <SelectField
             label="Priority"
             options={TASK_PRIORITIES.map((p) => ({ value: p, label: TASK_PRIORITY_LABELS[p] }))}

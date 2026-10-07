@@ -10,7 +10,7 @@ interface ModalProps {
   footer?: ReactNode;
 }
 
-/** Accessible dialog built on the native <dialog> element (focus trap + Esc handled by the browser). */
+/** Accessible dialog on the native <dialog> element (focus trap + Esc handled by the browser). */
 export function Modal({ open, title, onClose, children, footer }: ModalProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -31,28 +31,26 @@ export function Modal({ open, title, onClose, children, footer }: ModalProps) {
         onClose();
       }}
       onClick={(e) => {
-        // Click on the backdrop closes the dialog.
         if (e.target === ref.current) onClose();
       }}
-      className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl p-0 shadow-xl backdrop:bg-slate-900/40"
+      className="m-auto w-full max-w-dialog rounded-card border border-line bg-surface p-0 text-ink backdrop:bg-panel/50"
     >
       {open && (
-        <div className="flex max-h-[85vh] flex-col">
-          <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-            <h2 id={titleId} className="text-base font-semibold text-slate-900">
+        <div className="flex max-h-dvh flex-col animate-rise-in">
+          <div className="flex items-center justify-between gap-16 border-b border-line px-24 py-16">
+            <h2 id={titleId} className="text-subheading text-ink-brand">
               {title}
             </h2>
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-md p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
-              aria-label="Close dialog"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            <Button variant="quiet" size="icon" onClick={onClose} aria-label="Close dialog">
+              <X className="size-20" aria-hidden="true" />
+            </Button>
           </div>
-          <div className="overflow-y-auto px-5 py-4">{children}</div>
-          {footer && <div className="flex justify-end gap-2 border-t border-slate-200 px-5 py-3">{footer}</div>}
+          <div className="overflow-y-auto px-24 py-20">{children}</div>
+          {footer && (
+            <div className="flex flex-wrap justify-end gap-8 border-t border-line bg-canvas px-24 py-16">
+              {footer}
+            </div>
+          )}
         </div>
       )}
     </dialog>
@@ -94,7 +92,7 @@ export function ConfirmDialog({
         </>
       }
     >
-      <p className="text-sm text-slate-600">{message}</p>
+      <p className="text-body text-ink-muted">{message}</p>
     </Modal>
   );
 }
