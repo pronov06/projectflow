@@ -4,7 +4,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends openssl && r
 WORKDIR /app
 
 # Install only what the API needs (workspace manifests first for better layer caching).
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json tsconfig.base.json ./
 COPY packages/shared/package.json packages/shared/
 COPY apps/api/package.json apps/api/
 COPY apps/web/package.json apps/web/
