@@ -1,6 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
+  "regions": [
+    "sin1"
+  ],
   "installCommand": "cd ../.. && npm ci --include=dev",
   "buildCommand": "npm run build && npm run db:deploy",
   "outputDirectory": "public",
@@ -10,5 +13,10 @@
       "maxDuration": 30
     }
   },
-  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index"
+    }
+  ]
 }
