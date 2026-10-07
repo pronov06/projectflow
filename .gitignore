@@ -19,7 +19,7 @@ web-build/
 # vercel
 .vercel
 
-# assessment brief & AI working notes (not part of the deliverable)
+# assessment brief, AI working notes and personal presentation notes (not part of the deliverable)
 Task.pdf
 MASTER_PROMPT.md
 
@@ -28,3 +28,4 @@ apps/api/.local-pg/
 
 # local editor / agent config
 .claude/
+PRESENTATION_SCRIPT.md

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" width="1200" height="24" role="presentation">
+  <style>
+    .run { animation: run 3.2s cubic-bezier(.65,0,.35,1) infinite; transform-box: fill-box; }
+    @keyframes run { 0% { transform: translateX(-220px); } 100% { transform: translateX(1200px); } }
+    @media (prefers-reduced-motion: reduce) { .run { animation: none; } }
+  </style>
+  <rect x="0" y="11" width="1200" height="2" rx="1" fill="#ccdad7" />
+  <rect class="run" x="0" y="9" width="200" height="6" rx="3" fill="#56f09f" />
+  <rect x="588" y="4" width="24" height="16" rx="5" fill="#004737" />
+</svg>
