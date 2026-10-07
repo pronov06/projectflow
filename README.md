@@ -192,7 +192,7 @@ docker compose exec api npx tsx prisma/seed.ts   # optional demo data
 
 | Variable | Required | Description |
 |---|---|---|
-| `EXPO_PUBLIC_API_URL` | ✅ | API origin without `/api`, e.g. `https://projectflow-api.vercel.app` |
+| `EXPO_PUBLIC_API_URL` | ✅ | API origin without `/api`, e.g. `https://projectflow-beta-three.vercel.app` |
 
 ---
 
