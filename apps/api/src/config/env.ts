@@ -34,7 +34,7 @@ const envSchema = z.object({
         .map((o) => o.trim().replace(/\/$/, ''))
         .filter(Boolean),
     ),
-  /** Number of reverse proxies in front of the app (Render = 1). Needed for correct client IPs. */
+  /** Number of reverse proxies in front of the app (Vercel / Render = 1). Needed for correct client IPs. */
   TRUST_PROXY: z.coerce.number().int().min(0).default(0),
 
   BCRYPT_ROUNDS: z.coerce.number().int().min(4).max(15).default(12),

@@ -4,10 +4,10 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import { pinoHttp } from 'pino-http';
-import swaggerUi from 'swagger-ui-express';
 import { env } from './config/env';
 import { logger } from './config/logger';
 import { openApiSpec } from './docs/openapi';
+import { swaggerCsp, swaggerHtml, swaggerInitJs } from './docs/swaggerPage';
 import { prisma } from './lib/prisma';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import { apiLimiter } from './middleware/rateLimiters';
@@ -21,7 +21,7 @@ export function createApp() {
   const app = express();
 
   app.disable('x-powered-by');
-  // Behind Render's proxy this makes req.ip the real client IP (rate limiting depends on it).
+  // Behind the hosting proxy (Vercel/Render) this makes req.ip the real client IP (rate limiting depends on it).
   app.set('trust proxy', env.TRUST_PROXY);
 
   app.use(
@@ -70,7 +70,12 @@ export function createApp() {
   app.get('/api/docs.json', (_req, res) => {
     res.json(openApiSpec);
   });
-  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec, { customSiteTitle: 'ProjectFlow API' }));
+  app.get('/api/docs/init.js', (_req, res) => {
+    res.type('application/javascript').send(swaggerInitJs);
+  });
+  app.get(['/api/docs', '/api/docs/'], swaggerCsp, (_req, res) => {
+    res.type('html').send(swaggerHtml);
+  });
 
   app.use('/api', apiLimiter);
   app.use('/api/auth', authRouter);

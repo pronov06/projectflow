@@ -102,7 +102,7 @@ All 15 required endpoints exist with the exact paths from the brief (see [`API.m
 | Sorting | ✅ `sortBy`/`order` with an allowlist |
 | Audit logs | ✅ `audit_logs` table and `GET /api/audit-logs` |
 | Role-based access control | ◑ `role` column, JWT claim and `authorize()` middleware; no admin endpoints yet |
-| CI/CD pipeline | ✅ GitHub Actions CI; Render and Vercel auto-deploy from `main` |
+| CI/CD pipeline | ✅ GitHub Actions CI; Vercel auto-deploys web and API from `main` |
 | Refresh tokens | ✅ Rotating, hashed, with reuse detection |
 | Push notifications | ✗ Future work |
 | Offline viewing on mobile | ✅ Persisted query cache (AsyncStorage, no tokens) and an offline banner |

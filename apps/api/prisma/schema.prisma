@@ -3,7 +3,9 @@
 // ownership is always derived through the parent project.
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // "native" for local/Docker; rhel-openssl-3.0.x for Vercel Functions (Amazon Linux 2023)
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {

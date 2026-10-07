@@ -14,7 +14,7 @@ A project and task management system with a **React web app** and an **Android a
 | 📱 Android APK | _TBD_ |
 | 🎬 Demo video (5 min) | _TBD_ |
 
-> The API runs on Render's free tier and **sleeps after 15 minutes of inactivity**. The first request can take about 50 seconds. Open `/api/health` first to wake it.
+> Hosting: web app, API (serverless functions) and PostgreSQL (Neon, via the Vercel integration) all run on Vercel's free tier.
 
 **Test account** (seeded demo data, not real people): `alice@example.com` / `Password123!`. You can also register a new account. A second account, `bob@example.com`, has its own private data, so you can check that users can't see each other's projects.
 
@@ -58,7 +58,7 @@ See [`docs/REQUIREMENTS_CHECKLIST.md`](docs/REQUIREMENTS_CHECKLIST.md) for every
 | Mobile | **Expo SDK 57** (React Native 0.86), expo-router, TanStack Query, expo-secure-store, NetInfo |
 | Shared | `@pms/shared`: zod schemas, enums and TypeScript types used by all three apps |
 | Testing | Vitest, Supertest (against real Postgres), Testing Library |
-| DevOps | GitHub Actions CI, Docker and docker-compose, Render (API), Vercel (web), EAS Build (APK) |
+| DevOps | GitHub Actions CI, Docker and docker-compose, Vercel (web + API as serverless functions), Neon (PostgreSQL), EAS Build (APK); Docker + `render.yaml` as alternative hosting |
 
 ## Architecture
 
@@ -66,7 +66,7 @@ See [`docs/REQUIREMENTS_CHECKLIST.md`](docs/REQUIREMENTS_CHECKLIST.md) for every
 flowchart LR
   W["Web app (React, Vercel)"] -- "/api/* via Vercel rewrite" --> A
   M["Android app (Expo)"] -- "HTTPS + JWT" --> A
-  A["REST API (Express, Render)"] -- Prisma --> D[("PostgreSQL (Neon)")]
+  A["REST API (Express, Vercel Functions)"] -- Prisma --> D[("PostgreSQL (Neon)")]
 ```
 
 ```
@@ -173,7 +173,7 @@ docker compose exec api npx tsx prisma/seed.ts   # optional demo data
 | `JWT_ACCESS_TTL_SECONDS` | | `900` | Access token lifetime (15 min) |
 | `REFRESH_TOKEN_TTL_DAYS` | | `7` | Refresh token / session lifetime |
 | `COOKIE_SECURE` | | `true` in production | `Secure` flag on the refresh cookie (`false` for plain-http localhost) |
-| `TRUST_PROXY` | | `0` | Number of proxies in front of the API (`1` on Render), for correct client IPs |
+| `TRUST_PROXY` | | `0` | Number of proxies in front of the API (`1` on Vercel/Render), for correct client IPs |
 | `BCRYPT_ROUNDS` | | `12` | bcrypt cost factor |
 | `RATE_LIMIT_LOGIN_MAX` | | `5` | Failed logins allowed per IP + email per window |
 | `RATE_LIMIT_LOGIN_WINDOW_MINUTES` | | `15` | Login limiter window |
@@ -192,7 +192,7 @@ docker compose exec api npx tsx prisma/seed.ts   # optional demo data
 
 | Variable | Required | Description |
 |---|---|---|
-| `EXPO_PUBLIC_API_URL` | ✅ | API origin without `/api`, e.g. `https://projectflow-api.onrender.com` |
+| `EXPO_PUBLIC_API_URL` | ✅ | API origin without `/api`, e.g. `https://projectflow-api.vercel.app` |
 
 ---
 
@@ -215,9 +215,10 @@ CI (`.github/workflows/ci.yml`) runs lint, typecheck, every test suite against a
 
 | Part | Host | How |
 |---|---|---|
-| Database | Neon (PostgreSQL) | Create a project and copy the pooled and direct connection strings |
-| API | Render (free) | **New → Blueprint** → this repo (uses [`render.yaml`](render.yaml)). Set `DATABASE_URL`, `DIRECT_URL` and `CORS_ORIGINS`. Migrations run during the build (`prisma migrate deploy`). |
-| Web | Vercel | Import the repo, set **Root Directory = `apps/web`**. Install and build settings come from [`apps/web/vercel.json`](apps/web/vercel.json), which also rewrites `/api/*` to the Render API. |
+| Database | Neon PostgreSQL (Vercel → Storage → Neon) | Connect it to the API project. Vercel injects `DATABASE_URL` (pooled); add `DIRECT_URL` = the unpooled URL, which migrations use. |
+| API | Vercel (Functions) | Import the repo with **Root Directory = `apps/api`**. [`apps/api/vercel.json`](apps/api/vercel.json) builds with tsup, runs `prisma migrate deploy`, and routes every request to the Express app ([`api/index.js`](apps/api/api/index.js)). Set `JWT_ACCESS_SECRET`, `CORS_ORIGINS`, `TRUST_PROXY=1` and `NODE_ENV=production`. |
+| Web | Vercel | Import the repo again with **Root Directory = `apps/web`**. [`apps/web/vercel.json`](apps/web/vercel.json) rewrites `/api/*` to the API project, so the refresh cookie stays first-party. |
+| Alternative | Any Node host / Docker | `npm run start -w @pms/api`, `docker compose up`, or [`render.yaml`](render.yaml) (Render Blueprint). |
 | Android | EAS Build | `npx eas-cli build -p android --profile preview` produces an installable APK link |
 
 ## Documentation
@@ -231,8 +232,8 @@ CI (`.github/workflows/ci.yml`) runs lint, typecheck, every test suite against a
 
 ## Known limitations and future work
 
-- Free-tier API cold start (~50 s after idle). Clients show a "server may be waking up" message.
-- Rate-limit counters are in memory (fine for one instance; use Redis to scale out).
+- Serverless cold starts add about 1 s to the first request after idle.
+- Rate-limit counters are in memory per function instance. On serverless, a burst can be spread across instances; production would use a shared store (Redis / Upstash).
 - Projects are created and edited on the web; the mobile app views them and manages tasks, per the brief.
 - Not done yet: admin UI on top of the existing role claim, push notifications for tasks due tomorrow, offline *writes* on mobile, E2E tests.
 

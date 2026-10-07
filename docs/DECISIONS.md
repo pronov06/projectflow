@@ -12,7 +12,7 @@ flowchart LR
   end
   W -- "/api/* (Vercel rewrite,<br/>same origin)" --> A
   M -- "HTTPS + Bearer JWT<br/>X-Client-Platform: mobile" --> A
-  A[REST API<br/>Node + Express<br/>Render] -- Prisma --> D[(PostgreSQL<br/>Neon)]
+  A[REST API<br/>Node + Express<br/>Vercel Functions] -- Prisma --> D[(PostgreSQL<br/>Neon)]
   S[["@pms/shared<br/>zod schemas + types"]] -.-> W
   S -.-> M
   S -.-> A
@@ -44,7 +44,7 @@ flowchart LR
   - **Web:** the access token is kept **in memory only**, never in localStorage, so XSS can't read it from storage. The refresh token is an **httpOnly, Secure, SameSite=Lax cookie** scoped to `/api/auth`, so JavaScript can't read it. On page load the app calls `/auth/refresh` to restore the session, which meets "stay logged in until logout or token expiration".
   - **Mobile:** cookies are awkward in React Native. The app sends `X-Client-Platform: mobile`, gets the refresh token in the response body, and stores both tokens in **expo-secure-store**, which is backed by the **Android Keystore / iOS Keychain**, as the PDF requires. Nothing sensitive goes in AsyncStorage.
 - **Expiry handling** is the same on both clients. An axios interceptor catches a 401 and tries **one** refresh; concurrent 401s share a single refresh call. If the refresh fails, the session is cleared and the user lands on the login screen with **"Your session has expired. Please log in again."**
-- **Why the Vercel rewrite?** The web app calls `/api/*` on its own domain and Vercel proxies the call to Render. That keeps the refresh cookie **first-party**, so it works in Safari and Firefox, which block third-party cookies. CORS is still configured for the web domain (an allowlist from `CORS_ORIGINS`) for any direct browser calls.
+- **Why the Vercel rewrite?** The web app calls `/api/*` on its own domain and Vercel proxies the call to the API project. That keeps the refresh cookie **first-party**, so it works in Safari and Firefox, which block third-party cookies. CORS is still configured for the web domain (an allowlist from `CORS_ORIGINS`) for any direct browser calls.
 
 ## 4. Authorization
 
@@ -86,7 +86,7 @@ flowchart LR
 
 **Rate-limit key choice:** login is keyed on **IP + email** and counts only failed attempts. A brute-force attack on one account is stopped, while users behind a shared IP (an office, a campus or the Vercel proxy) don't lock each other out.
 
-Known limitation: limiter state is in memory. With several API instances you'd move it to Redis.
+Known limitation: limiter state is in memory. On serverless each function instance keeps its own counters, so production would use a shared store (Redis / Upstash).
 
 ## 7. Product decisions on ambiguous points
 
@@ -98,7 +98,7 @@ Known limitation: limiter state is in memory. With several API instances you'd m
 | Are dates required? | No, they're optional. A past due date is allowed, which is exactly what makes a task "overdue". |
 | Projects on mobile | The PDF requires viewing projects and full task CRUD on mobile, so projects are view-only there and created or edited on the web. |
 | Mobile offline | Requests fail fast with a clear "You're offline" message. The last fetched data is cached on the device (offline viewing bonus) and an offline banner shows. Saving while offline is blocked with a message. |
-| Free-tier cold start | Render's free tier sleeps. Clients use long timeouts and say "The server may be waking up — please try again". |
+| Hosting | Web and API on Vercel (the API as a serverless function wrapping the same Express app), PostgreSQL on Neon. One platform, no idle sleep. `server.ts`, Docker and `render.yaml` keep the long-running option open. Clients still use generous timeouts and a "server may be waking up" message. |
 
 ## 8. Testing strategy
 
