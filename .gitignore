@@ -25,3 +25,6 @@ MASTER_PROMPT.md
 
 # local embedded postgres data
 apps/api/.local-pg/
+
+# local editor / agent config
+.claude/
