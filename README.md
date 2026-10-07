@@ -207,6 +207,9 @@ npm run test:coverage -w @pms/api
 npm test -w @pms/web                      # web component tests
 npm test -w @pms/shared                   # shared schema tests
 npm run lint && npm run typecheck
+
+# Against a deployed API (HTTPS only): 17 end-to-end checks; --seed also loads the demo accounts
+node scripts/prod-check.mjs https://<api-host> --seed
 ```
 
 CI (`.github/workflows/ci.yml`) runs lint, typecheck, every test suite against a Postgres service container, the API and web builds, and both Docker image builds on each push.
