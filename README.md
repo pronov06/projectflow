@@ -11,7 +11,7 @@ A project and task management system with a **React web app** and an **Android a
 | 🌐 Web app | https://projectflow-hf4d.vercel.app |
 | ⚙️ API | https://projectflow-beta-three.vercel.app/api/health |
 | 📖 API docs (Swagger) | https://projectflow-beta-three.vercel.app/api/docs |
-| 📱 Android APK | _TBD_ |
+| 📱 Android APK | https://expo.dev/accounts/pronov06/projects/projectflow/builds/95d102f1-be28-4817-847c-70b48ddb6c94 (open on an Android phone → Install) |
 | 🎬 Demo video (5 min) | _TBD_ |
 
 > Hosting: web app, API (serverless functions) and PostgreSQL (Neon, via the Vercel integration) all run on Vercel's free tier.

@@ -46,10 +46,10 @@ API tests are in `apps/api/tests/`; ✅ = implemented and verified.
 |---|---|---|
 | Same backend, no separate mobile backend | `apps/mobile/src/lib/api.ts` → `EXPO_PUBLIC_API_URL` | Config in `eas.json` ✅ |
 | Register / login / logout with the web account | `AuthForm.tsx`, `(tabs)/profile.tsx` | Demo recording |
-| Dashboard; projects and their tasks | `(tabs)/index.tsx`, `(tabs)/projects.tsx`, `project/[id].tsx` | Device test |
-| Create, edit, delete tasks; mark complete; change status and priority | `task/new.tsx`, `task/[id].tsx`, `TaskForm.tsx`, `TaskItem.tsx` (checkbox) | Device test |
-| Search and filter tasks | `TaskList.tsx` | Device test |
-| Android required | Expo, EAS `preview` profile builds an APK | APK link in README |
+| Dashboard; projects and their tasks | `(tabs)/index.tsx`, `(tabs)/projects.tsx`, `project/[id].tsx` | Verified on an Android phone (EAS preview APK) ✅ |
+| Create, edit, delete tasks; mark complete; change status and priority | `task/new.tsx`, `task/[id].tsx`, `TaskForm.tsx`, `TaskItem.tsx` (checkbox) | Verified on an Android phone (EAS preview APK) ✅ |
+| Search and filter tasks | `TaskList.tsx` | Verified on an Android phone (EAS preview APK) ✅ |
+| Android required | Expo, EAS `preview` profile builds an APK | APK link in README ✅ |
 | Changes appear after pull-to-refresh | `RefreshControl` on every list and the dashboard | Demo recording |
 | Token in secure storage (Keystore/Keychain) | `src/lib/secureStore.ts` (expo-secure-store) | Code review ✅ |
 | Expired token → login screen with a clear message | Interceptor in `src/lib/api.ts` → `AuthContext` notice → login screen | Code review; API side `auth.test.ts` "reports an expired token" ✅ |
