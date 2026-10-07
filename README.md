@@ -8,9 +8,9 @@ A project and task management system with a **React web app** and an **Android a
 
 | | URL |
 |---|---|
-| 🌐 Web app | _TBD — filled after deployment_ |
-| ⚙️ API | _TBD_ |
-| 📖 API docs (Swagger) | _TBD_/api/docs |
+| 🌐 Web app | https://projectflow-hf4d.vercel.app |
+| ⚙️ API | https://projectflow-beta-three.vercel.app/api/health |
+| 📖 API docs (Swagger) | https://projectflow-beta-three.vercel.app/api/docs |
 | 📱 Android APK | _TBD_ |
 | 🎬 Demo video (5 min) | _TBD_ |
 
