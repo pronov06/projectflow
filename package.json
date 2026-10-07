@@ -1,0 +1,27 @@
+{
+  "name": "projectflow",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ProjectFlow — project & task management (web + mobile + REST API)",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev:api": "npm run dev -w @pms/api",
+    "dev:web": "npm run dev -w @pms/web",
+    "dev:mobile": "npm run start -w @pms/mobile",
+    "build": "npm run build -w @pms/api && npm run build -w @pms/web",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "typescript": "5.9.3"
+  }
+}
