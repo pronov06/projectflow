@@ -30,6 +30,12 @@ export default tseslint.config(
     },
   },
   {
+    // Vercel Function shim: plain CommonJS that loads the tsup bundle.
+    files: ['apps/api/api/**/*.js'],
+    languageOptions: { sourceType: 'commonjs' },
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
+  {
     files: ['apps/web/**/*.{ts,tsx}', 'apps/mobile/**/*.{ts,tsx}'],
     plugins: { 'react-hooks': reactHooks },
     rules: {
