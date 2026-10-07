@@ -75,5 +75,4 @@ if (problems.length) {
   console.error(`Design-token check failed (${problems.length}):\n  ${problems.join('\n  ')}`);
   process.exit(1);
 }
-process.stdout.write('Design-token check passed.
-');
+process.stdout.write('Design-token check passed.\n');
