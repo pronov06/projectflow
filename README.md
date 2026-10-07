@@ -7,15 +7,11 @@
 <a href="https://projectflow-hf4d.vercel.app"><img src="https://img.shields.io/badge/Open_the_web_app-56f09f?style=for-the-badge&logo=vercel&logoColor=032019" alt="Open the web app" /></a>
 <a href="https://expo.dev/accounts/pronov06/projects/projectflow/builds/95d102f1-be28-4817-847c-70b48ddb6c94"><img src="https://img.shields.io/badge/Install_Android_APK-004737?style=for-the-badge&logo=android&logoColor=56f09f" alt="Install the Android APK" /></a>
 <a href="https://projectflow-beta-three.vercel.app/api/docs"><img src="https://img.shields.io/badge/API_docs_(Swagger)-d4ffe8?style=for-the-badge&logo=swagger&logoColor=004737" alt="API docs" /></a>
-
-<br /><br />
-
+<br />
 <a href="https://github.com/pronov06/projectflow/actions/workflows/ci.yml"><img src="https://github.com/pronov06/projectflow/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
 <img src="https://img.shields.io/badge/tests-77_API_·_17_live_checks-004737?style=flat-square&labelColor=032019" alt="Tests" />
 <img src="https://img.shields.io/badge/hosting-Vercel_·_Neon_·_EAS-004737?style=flat-square&labelColor=032019" alt="Hosting" />
-
-<br /><br />
-
+<br />
 <img src="https://img.shields.io/badge/React_19-004737?style=flat-square&logo=react&logoColor=56f09f" alt="React" />
 <img src="https://img.shields.io/badge/TypeScript-004737?style=flat-square&logo=typescript&logoColor=56f09f" alt="TypeScript" />
 <img src="https://img.shields.io/badge/Expo_SDK_57-004737?style=flat-square&logo=expo&logoColor=56f09f" alt="Expo" />
