@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 640" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="1180" height="640" fill="#ffffff"/>
+  <text x="590" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">ProjectFlow — Entity Relationship Diagram (PostgreSQL)</text>
+
+  <defs>
+    <style>
+      .box{fill:#fff;stroke:#4f46e5;stroke-width:1.5}
+      .head{fill:#4f46e5}
+      .title{fill:#fff;font-weight:700;font-size:14}
+      .pk{fill:#b45309;font-weight:700}
+      .fk{fill:#1d4ed8;font-weight:600}
+      .col{fill:#0f172a}
+      .type{fill:#64748b}
+      .rel{stroke:#334155;stroke-width:1.5;fill:none}
+      .lbl{fill:#334155;font-size:12;font-style:italic}
+    </style>
+  </defs>
+
+  <!-- users -->
+  <g transform="translate(40,70)">
+    <rect class="box" width="300" height="200" rx="8"/>
+    <rect class="head" width="300" height="32" rx="8"/><rect class="head" y="20" width="300" height="12"/>
+    <text class="title" x="12" y="21">users</text>
+    <text x="12" y="56"><tspan class="pk">PK id</tspan><tspan class="type" x="170">uuid</tspan></text>
+    <text x="12" y="80"><tspan class="col">full_name</tspan><tspan class="type" x="170">varchar(100)</tspan></text>
+    <text x="12" y="104"><tspan class="col">email  (UNIQUE)</tspan><tspan class="type" x="170">varchar(255)</tspan></text>
+    <text x="12" y="128"><tspan class="col">password_hash</tspan><tspan class="type" x="170">bcrypt</tspan></text>
+    <text x="12" y="152"><tspan class="col">role</tspan><tspan class="type" x="170">USER | ADMIN</tspan></text>
+    <text x="12" y="176"><tspan class="col">created_at, updated_at</tspan><tspan class="type" x="170">timestamptz</tspan></text>
+  </g>
+
+  <!-- projects -->
+  <g transform="translate(440,70)">
+    <rect class="box" width="300" height="248" rx="8"/>
+    <rect class="head" width="300" height="32" rx="8"/><rect class="head" y="20" width="300" height="12"/>
+    <text class="title" x="12" y="21">projects</text>
+    <text x="12" y="56"><tspan class="pk">PK id</tspan><tspan class="type" x="170">uuid</tspan></text>
+    <text x="12" y="80"><tspan class="fk">FK owner_id → users</tspan><tspan class="type" x="170">uuid, CASCADE</tspan></text>
+    <text x="12" y="104"><tspan class="col">name</tspan><tspan class="type" x="170">varchar(120)</tspan></text>
+    <text x="12" y="128"><tspan class="col">description</tspan><tspan class="type" x="170">text NULL</tspan></text>
+    <text x="12" y="152"><tspan class="col">status</tspan><tspan class="type" x="170">NOT_STARTED |</tspan></text>
+    <text x="12" y="168"><tspan class="type" x="170">IN_PROGRESS | COMPLETED</tspan></text>
+    <text x="12" y="192"><tspan class="col">start_date, end_date</tspan><tspan class="type" x="170">date NULL</tspan></text>
+    <text x="12" y="210"><tspan class="type">CHECK end_date ≥ start_date</tspan></text>
+    <text x="12" y="234"><tspan class="col">created_at, updated_at</tspan><tspan class="type" x="170">timestamptz</tspan></text>
+  </g>
+
+  <!-- tasks -->
+  <g transform="translate(840,70)">
+    <rect class="box" width="300" height="248" rx="8"/>
+    <rect class="head" width="300" height="32" rx="8"/><rect class="head" y="20" width="300" height="12"/>
+    <text class="title" x="12" y="21">tasks</text>
+    <text x="12" y="56"><tspan class="pk">PK id</tspan><tspan class="type" x="170">uuid</tspan></text>
+    <text x="12" y="80"><tspan class="fk">FK project_id → projects</tspan><tspan class="type" x="190">CASCADE</tspan></text>
+    <text x="12" y="104"><tspan class="col">name</tspan><tspan class="type" x="170">varchar(150)</tspan></text>
+    <text x="12" y="128"><tspan class="col">description</tspan><tspan class="type" x="170">text NULL</tspan></text>
+    <text x="12" y="152"><tspan class="col">priority</tspan><tspan class="type" x="170">LOW | MEDIUM | HIGH</tspan></text>
+    <text x="12" y="176"><tspan class="col">status</tspan><tspan class="type" x="170">PENDING |</tspan></text>
+    <text x="12" y="192"><tspan class="type" x="170">IN_PROGRESS | COMPLETED</tspan></text>
+    <text x="12" y="216"><tspan class="col">due_date / completed_at</tspan><tspan class="type" x="190">date / tstz</tspan></text>
+    <text x="12" y="238"><tspan class="col">created_at, updated_at</tspan><tspan class="type" x="190">timestamptz</tspan></text>
+  </g>
+
+  <!-- refresh_tokens -->
+  <g transform="translate(40,380)">
+    <rect class="box" width="300" height="200" rx="8"/>
+    <rect class="head" width="300" height="32" rx="8"/><rect class="head" y="20" width="300" height="12"/>
+    <text class="title" x="12" y="21">refresh_tokens</text>
+    <text x="12" y="56"><tspan class="pk">PK id</tspan><tspan class="type" x="170">uuid</tspan></text>
+    <text x="12" y="80"><tspan class="fk">FK user_id → users</tspan><tspan class="type" x="170">uuid, CASCADE</tspan></text>
+    <text x="12" y="104"><tspan class="col">token_hash  (UNIQUE)</tspan><tspan class="type" x="170">char(64) SHA-256</tspan></text>
+    <text x="12" y="128"><tspan class="col">expires_at, revoked_at</tspan><tspan class="type" x="170">timestamptz</tspan></text>
+    <text x="12" y="152"><tspan class="col">replaced_by_id</tspan><tspan class="type" x="170">uuid NULL</tspan></text>
+    <text x="12" y="176"><tspan class="col">user_agent, created_at</tspan></text>
+  </g>
+
+  <!-- audit_logs -->
+  <g transform="translate(440,380)">
+    <rect class="box" width="300" height="200" rx="8"/>
+    <rect class="head" width="300" height="32" rx="8"/><rect class="head" y="20" width="300" height="12"/>
+    <text class="title" x="12" y="21">audit_logs</text>
+    <text x="12" y="56"><tspan class="pk">PK id</tspan><tspan class="type" x="170">uuid</tspan></text>
+    <text x="12" y="80"><tspan class="fk">FK user_id → users</tspan><tspan class="type" x="170">uuid, SET NULL</tspan></text>
+    <text x="12" y="104"><tspan class="col">action</tspan><tspan class="type" x="170">varchar(50)</tspan></text>
+    <text x="12" y="128"><tspan class="col">entity_type, entity_id</tspan><tspan class="type" x="170">varchar, uuid</tspan></text>
+    <text x="12" y="152"><tspan class="col">metadata</tspan><tspan class="type" x="170">jsonb</tspan></text>
+    <text x="12" y="176"><tspan class="col">ip, created_at</tspan></text>
+  </g>
+
+  <!-- relationships -->
+  <path class="rel" d="M340 150 H440"/>
+  <text class="lbl" x="352" y="142">1 owns ∞</text>
+  <path class="rel" d="M740 150 H840"/>
+  <text class="lbl" x="748" y="142">1 contains ∞</text>
+  <path class="rel" d="M190 270 V380"/>
+  <text class="lbl" x="198" y="330">1 — ∞ sessions</text>
+  <path class="rel" d="M340 240 C 400 240, 400 470, 440 470"/>
+  <text class="lbl" x="348" y="300">0..1 — ∞</text>
+
+  <text x="40" y="620" fill="#64748b" font-size="12">Tasks have no owner column (3NF): ownership is derived through projects.owner_id. Counts and progress are computed at query time.</text>
+</svg>
